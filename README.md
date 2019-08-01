@@ -26,7 +26,7 @@ Clone the repo:
 
 Navigate to the project folder:
 
-    cd webpack-sass-bootstrap-boilerplate
+    cd webpack-vue-sass-bootstrap-boilerplate
 
 Install all packages and dependencies required for this project:
 
