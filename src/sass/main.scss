@@ -1,8 +1,17 @@
 @import "~bootstrap/scss/bootstrap";
-
 @import "fonts";
 @import "variables";
-
+@import "colors";
 body {
   background: #fff;
 }
+
+.vue-toasted {
+  background: $primary !important;
+  font-weight: bold !important;
+  padding: 24px !important;
+  font-size: 18px !important;
+}
+
+
+/* Vue-toasted */

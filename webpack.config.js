@@ -7,6 +7,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
 const globSync = require("glob").sync;
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = (env, options) => ({
   entry: ["./src/index.js"],
@@ -18,18 +19,17 @@ module.exports = (env, options) => ({
     fs: 'empty'
   },
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.scss$/,
         use: [
-          options.mode !== "production"
-            ? "style-loader"
-            : MiniCssExtractPlugin.loader,
+          options.mode !== "production" ?
+          "style-loader" :
+          MiniCssExtractPlugin.loader,
           "css-loader",
           {
-            loader: 'postcss-loader', 
+            loader: 'postcss-loader',
             options: {
-              plugins: function () {
+              plugins: function() {
                 return [
                   require('precss'),
                   require('autoprefixer')
@@ -42,15 +42,13 @@ module.exports = (env, options) => ({
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "[name].[ext]",
-              outputPath: "img/"
-            }
+        use: [{
+          loader: "file-loader",
+          options: {
+            name: "[name].[ext]",
+            outputPath: "img/"
           }
-        ]
+        }]
       },
       {
         test: /\.(html)$/,
@@ -70,6 +68,17 @@ module.exports = (env, options) => ({
             presets: ["@babel/preset-env"]
           }
         }
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'vue-style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
       }
     ]
   },
@@ -92,20 +101,21 @@ module.exports = (env, options) => ({
       Popper: ["popper.js", "default"],
       Util: "exports-loader?Util!bootstrap/js/dist/util",
       Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown"
-    })
+    }),
+    new VueLoaderPlugin()
   ],
   optimization: {
     minimizer: [
-        new UglifyJsPlugin({
-            cache: true,
-            parallel: true,
-            sourceMap: false,
-            extractComments: false
-        }),
-        new CompressionPlugin({
-            test: /\.js$|\.css(\?.*)?$/i
-        }),
-        new OptimizeCSSAssetsPlugin({})
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: false,
+        extractComments: false
+      }),
+      new CompressionPlugin({
+        test: /\.js$|\.css(\?.*)?$/i
+      }),
+      new OptimizeCSSAssetsPlugin({})
     ]
   },
   output: {
