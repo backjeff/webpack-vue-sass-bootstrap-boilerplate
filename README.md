@@ -56,5 +56,20 @@ experiment with the changes live.)
     @import "filename";
 ```
 
+### Nginx config
+```
+server {
+    listen 80;
+    server_name server.name;
+    charset utf-8;
+    root /PATH/TO/APPLICATION;
+    index index.html;
+    location / {
+        root /PATH/TO/APPLICATION;
+        try_files $uri /index.html;
+    }
+}
+```
+
 # Licence
 Code released under the [MIT License](LICENSE.md).
